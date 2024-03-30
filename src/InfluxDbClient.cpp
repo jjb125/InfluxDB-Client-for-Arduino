@@ -740,7 +740,7 @@ size_t InfluxDBClient::BatchStreamer::readBytes(char* buffer, size_t len) {
 #elif defined(ESP32)
     INFLUXDB_CLIENT_DEBUG("BatchStream::readBytes %d, free_heap %d, max_alloc_heap %d\n", len, ESP.getFreeHeap(), ESP.getMaxAllocHeap());
 #elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
-    INFLUXDB_CLIENT_DEBUG("BatchStream::readBytes %d, free_heap %d, max_alloc_heap %d\n", len);
+    INFLUXDB_CLIENT_DEBUG("BatchStream::readBytes %d, free_heap %d, max_alloc_heap %d\n", len);  // TODO add heap debug details
 #endif
     unsigned int r=0;
     for(unsigned int i=0;i<len;i++) {
