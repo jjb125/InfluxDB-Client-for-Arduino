@@ -29,7 +29,7 @@
 
 #if defined(ESP8266)
 # include <ESP8266HTTPClient.h>
-#elif defined(ESP32)
+#elif defined(ESP32) || defined(ARDUINO_RASPBERRY_PI_PICO_W)
 # include <HTTPClient.h>
 #endif //ESP8266
 

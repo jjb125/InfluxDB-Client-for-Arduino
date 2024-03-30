@@ -43,6 +43,11 @@ HTTPService::HTTPService(ConnectionInfo *pConnInfo):_pConnInfo(pConnInfo) {
     } else if(pConnInfo->certInfo && strlen_P(pConnInfo->certInfo) > 0) { 
       wifiClientSec->setCACert(pConnInfo->certInfo);
     }
+#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
+    WiFiClientSecure *wifiClientSec = new WiFiClientSecure;  
+    if(pConnInfo->certInfo && strlen_P(pConnInfo->certInfo) > 0) { 
+      wifiClientSec->setCACert(pConnInfo->certInfo);
+    }
 #endif    
     _wifiClient = wifiClientSec;
   } else {

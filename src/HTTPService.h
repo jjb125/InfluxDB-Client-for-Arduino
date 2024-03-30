@@ -31,10 +31,10 @@
 #if defined(ESP8266)
 # include <WiFiClientSecureBearSSL.h>
 # include <ESP8266HTTPClient.h>
-#elif defined(ESP32)
+#elif defined(ESP32) || defined(ARDUINO_RASPBERRY_PI_PICO_W)
 # include <HTTPClient.h>
 #else
-# error "This library currently supports only ESP8266 and ESP32."
+# error "This library currently supports only ESP8266, ESP32, and Raspberry Pi Pico W."
 #endif
 #include "Options.h"
 

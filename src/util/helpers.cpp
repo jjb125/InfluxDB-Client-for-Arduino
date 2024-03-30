@@ -29,7 +29,9 @@
 void timeSync(const char *tzInfo, const char* ntpServer1, const char* ntpServer2, const char* ntpServer3) {
   // Accurate time is necessary for certificate validion
 
+#if defined(ESP32)
   configTzTime(tzInfo,ntpServer1, ntpServer2, ntpServer3);
+#endif
 
   // Wait till time is synced
   Serial.print("Syncing time");

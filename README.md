@@ -13,6 +13,7 @@ This is a new implementation and the API, [original API](#original-api) is still
 Supported devices: 
  - ESP8266 with [Arduino core for ESP8266](https://github.com/esp8266/Arduino) at least version [3.0.2](https://github.com/esp8266/Arduino/releases/tag/3.0.2).
  - ESP32 with [Arduino core for the ESP32](https://github.com/espressif/arduino-esp32) at least version [2.0.2](https://github.com/espressif/arduino-esp32/releases/tag/2.0.2). 
+ - Raspberry Pi Pico W [Arduino-pico](https://github.com/earlephilhower/arduino-pico)
 
 This library doesn't support using those devices as a peripheral. 
 
