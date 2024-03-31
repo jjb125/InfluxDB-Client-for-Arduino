@@ -292,7 +292,7 @@ void Test::testPoint() {
 
     TEST_ASSERT(!p.hasTime());
     time_t now = time(nullptr);
-    String snow(now);
+    String snow((long)now);
     p.setTime(now);
     String testLineTime = testLine + " " + snow;
     line = p.toLineProtocol();
@@ -305,7 +305,7 @@ void Test::testPoint() {
     TEST_ASSERTM(line == testLineTime, line);
     now += 5;
     snow = "";
-    snow.concat(now);
+    snow.concat((const char*)now);
     p.setTime(snow);
     testLineTime = testLine + " " + snow;
     line = p.toLineProtocol();
@@ -491,7 +491,7 @@ void Test::testLineProtocol() {
 
     TEST_ASSERT(!p.hasTime());
     time_t now = time(nullptr);
-    String snow(now);
+    String snow((long)now);
     p.setTime(now);
     String testLineTime = testLine + " " + snow;
     line = client.pointToLineProtocol(p);
@@ -505,7 +505,7 @@ void Test::testLineProtocol() {
 
     now += 5;
     snow = "";
-    snow += now;
+    snow += String((long)now);
     p.setTime(snow);
     testLineTime = testLine + " " + snow;
     line = client.pointToLineProtocol(p);

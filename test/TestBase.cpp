@@ -8,6 +8,10 @@ String deviceName = "ESP32";
 #include <ESP8266WiFi.h>
 String chipId = String(ESP.getChipId());
 String deviceName = "ESP8266";
+#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
+#include <WiFi.h>
+String chipId = "RPIPICOW";  //TODO
+String deviceName = "RPIPICOW";
 #endif
 
 const char * TestBase::managementUrl;

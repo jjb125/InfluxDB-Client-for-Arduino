@@ -28,7 +28,7 @@
 #include <Arduino.h>
 #if defined(ESP8266)
 # include <ESP8266HTTPClient.h>
-#elif defined(ESP32)
+#elif defined(ESP32) || defined(ARDUINO_RASPBERRY_PI_PICO_W)
 # include <HTTPClient.h>
 #endif
 
@@ -37,8 +37,10 @@
 static HTTPClient httpClient;
 
 void printFreeHeap() {
+#if defined(ESP8266) || defined(ESP32)
   Serial.print("[TD] Free heap: ");  
   Serial.println(ESP.getFreeHeap());
+#endif
 }
 
 int httpPOST(const String &url, String mess) {
