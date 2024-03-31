@@ -29,10 +29,11 @@
 void timeSync(const char *tzInfo, const char* ntpServer1, const char* ntpServer2, const char* ntpServer3) {
   // Accurate time is necessary for certificate validion
 
-#if defined(ESP32)
+#if defined(ESP8266) || defined(ESP32)
   configTzTime(tzInfo,ntpServer1, ntpServer2, ntpServer3);
+#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
+  NTP.begin(ntpServer1, ntpServer2);
 #endif
-//TODO add ntp support for pico W
 
   // Wait till time is synced
   Serial.print("Syncing time");

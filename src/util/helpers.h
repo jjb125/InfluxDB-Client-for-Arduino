@@ -28,7 +28,11 @@
 #define _INFLUXDB_CLIENT_HELPERS_H
 
 #include <Arduino.h>
-#include <sys/time.h>  
+#include <sys/time.h>
+#if defined(ARDUINO_RASPBERRY_PI_PICO_W)
+#include <WiFi.h>  // NTP client
+#endif
+
 
 // Synchronize time with NTP servers and waits for completition. Prints waiting progress and final synchronized time to the serial.
 // Accurate time is necessary for certificate validion and writing points in batch
