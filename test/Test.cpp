@@ -767,7 +767,11 @@ void Test::testRepeatedInit() {
     TEST_INIT("testRepeatedInit");
     
     waitServer(Test::managementUrl, true);
+    #if defined(ESP8266) || defined(ESP32)
     uint32_t startRAM = ESP.getFreeHeap();
+    #elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
+    uint32_t startRAM = rp2040.getFreeHeap();
+    #endif
     do {
         InfluxDBClient client;
         for(int i = 0; i<20;i++) {
@@ -775,7 +779,11 @@ void Test::testRepeatedInit() {
             TEST_ASSERTM(client.validateConnection(),client.getLastErrorMessage());
         }
     } while(0);
+    #if defined(ESP8266) || defined(ESP32)
     uint32_t endRAM = ESP.getFreeHeap();
+    #elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
+    uint32_t endRAM = rp2040.getFreeHeap();
+    #endif
     long diff = endRAM-startRAM;
     TEST_ASSERTM(diff>-300,String(diff));
     TEST_END();
@@ -2486,6 +2494,8 @@ void Test::testFlushing() {
 #define WS_DEBUG_RAM(text) { Serial.printf_P(PSTR(text ": free_heap %d, max_alloc_heap %d, heap_fragmentation  %d\n"), ESP.getFreeHeap(), ESP.getMaxFreeBlockSize(), ESP.getHeapFragmentation()); }
 #elif defined(ESP32)
 #define WS_DEBUG_RAM(text) { Serial.printf_P(PSTR(text ": free_heap %d, max_alloc_heap %d\n"), ESP.getFreeHeap(), ESP.getMaxAllocHeap()); }
+#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
+#define WS_DEBUG_RAM(text) { Serial.printf(PSTR(text ": free_heap %d\n"), rp2040.getFreeHeap()); }
 #endif
 
 
@@ -2549,10 +2559,14 @@ void Test::testLargeBatch() {
 
     WS_DEBUG_RAM("After init");
     const char *line = "test1,SSID=Bonitoo-ng,deviceId=4288982576 temperature=17,humidity=28i";
-    uint32_t free = ESP.getFreeHeap(); 
+#if defined(ESP8266) || defined(ESP32)
+    uint32_t free = ESP.getFreeHeap();
+#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
+    uint32_t free = rp2040.getFreeHeap();
+#endif
 #if defined(ESP8266)
     int batchSize = 320;
-#elif defined(ESP32)
+#elif defined(ESP32) || defined(ARDUINO_RASPBERRY_PI_PICO_W)
     // 2.0.4. introduces a memory hog which causes original 2048 lines cannot be sent
     int batchSize = 1950;
 #endif

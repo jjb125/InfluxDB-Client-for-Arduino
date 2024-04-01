@@ -55,12 +55,21 @@ void loop() {
     Serial.print("Start time: ");
     Serial.println(ctime(&now));
     uint32_t start = millis();
+#if defined(ESP8266) || defined(ESP32)
     uint32_t startRAM = ESP.getFreeHeap();
     Serial.printf("Start RAM: %d\n", startRAM);
     Test::run();
     E2ETest::run();
     uint32_t endRAM = ESP.getFreeHeap();
     Serial.printf("End RAM %d, diff: %d\n", endRAM, endRAM-startRAM);
+#elif defined(ARDUINO_RASPBERRY_PI_PICO_W)
+    uint32_t startRAM = rp2040.getFreeHeap();
+    Serial.printf("Start RAM: %d\n", startRAM);
+    Test::run();
+    E2ETest::run();
+    uint32_t endRAM = rp2040.getFreeHeap();
+    Serial.printf("End RAM %d, diff: %d\n", endRAM, endRAM-startRAM);
+#endif
     now = time(nullptr);
     Serial.print("End time: ");
     Serial.print(ctime(&now));
@@ -74,7 +83,9 @@ void loop() {
 
 void initInet() {
     WiFi.mode(WIFI_STA);
+#if defined(ESP8266) || defined(ESP32)
     WiFi.setAutoConnect(true);
+#endif
 
     int i = 0,j = 0;
     bool wifiOk = false;
@@ -100,7 +111,9 @@ void initInet() {
     if (!wifiOk) {
         Serial.println("Wifi connection failed");
         Serial.println("Restarting");
+#if defined(ESP8266) || defined(ESP32)
         ESP.restart();
+#endif
     } else {
         Serial.printf("Connected to: %s - %d(%d)\n", WiFi.SSID().c_str(), WiFi.channel(), WiFi.RSSI());
         Serial.print("Ip: ");
